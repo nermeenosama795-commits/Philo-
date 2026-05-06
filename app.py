@@ -123,7 +123,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # --- Step 5: Run the App ---
- rag_chain = build_rag_chain()
+rag_chain = build_rag_chain()
 # عرض الرسائل السابقة
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
