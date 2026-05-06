@@ -78,7 +78,15 @@ html, body, [class*="css"], .stMarkdown {
 def build_rag_chain():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-    vector_store = FAISS.load_local("faiss_philosophy_index", embeddings, allow_dangerous_deserialization=True)
+    import pickle
+    from langchain_community.vectorstores import FAISS
+
+    # بدل FAISS.load_local المباشر
+    vector_store = FAISS.load_local(
+        "faiss_philosophy_index",
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
 
     retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": 4})
 
@@ -115,7 +123,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # --- Step 5: Run the App ---
-rag_chain = build_rag_chain()
+ rag_chain = build_rag_chain()
 # عرض الرسائل السابقة
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
